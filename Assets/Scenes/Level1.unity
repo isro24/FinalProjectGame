@@ -745,26 +745,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpawnCharacter
       objectReference: {fileID: 0}
-    - target: {fileID: 3952308488229756748, guid: 1a4dcffecd6c2294891fe2f4ea4d2d3a, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
     - target: {fileID: 6062243531815274472, guid: 1a4dcffecd6c2294891fe2f4ea4d2d3a, type: 3}
       propertyPath: spawnPoint
       value: 
       objectReference: {fileID: 2023112541}
-    - target: {fileID: 6062243531815274472, guid: 1a4dcffecd6c2294891fe2f4ea4d2d3a, type: 3}
-      propertyPath: 'characterPrefabs.Array.data[0]'
-      value: 
-      objectReference: {fileID: 224892489802432448, guid: 46242079330b6084a9fdeb48b899fd89, type: 3}
-    - target: {fileID: 6062243531815274472, guid: 1a4dcffecd6c2294891fe2f4ea4d2d3a, type: 3}
-      propertyPath: 'characterPrefabs.Array.data[1]'
-      value: 
-      objectReference: {fileID: 741102615495376783, guid: 1bcbd8f3474496b41a264e2e3a1b0cfb, type: 3}
-    - target: {fileID: 6062243531815274472, guid: 1a4dcffecd6c2294891fe2f4ea4d2d3a, type: 3}
-      propertyPath: 'characterPrefabs.Array.data[2]'
-      value: 
-      objectReference: {fileID: 4484509914755186536, guid: 51d44d0ad6bbd55438178125497ca044, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
