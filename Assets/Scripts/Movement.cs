@@ -42,7 +42,7 @@ public class Movement : MonoBehaviour
     {
         Vector3 input = move.ReadValue<Vector3>();
 
-        Vector3 moveDir = new Vector3(input.x, 0f, input.y);
+        Vector3 moveDir = new Vector3(input.x, 0f, input.z);
         Vector3 targetPos = playerRB.position + moveDir * speed * Time.fixedDeltaTime;
 
         playerRB.MovePosition(targetPos);

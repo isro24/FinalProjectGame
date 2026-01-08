@@ -13,17 +13,24 @@ public class SpawnCharacter : MonoBehaviour
             Debug.LogError("Character Prefabs belum diisi");
             return;
         }
-        int id = GameManager.instance.GetCharacter();
 
+        int id = GameManager.instance.GetCharacter();
         if (id < 0 || id >= characterPrefabs.Length)
-        {
-            Debug.LogWarning("Character ID invalid, fallback ke 0");
             id = 0;
-        }
 
         Vector3 spawnPos = spawnPoint.position + Vector3.up * 0.5f;
 
-        Instantiate(characterPrefabs[id], spawnPos, spawnPoint.rotation);
+        GameObject player = Instantiate(
+                  characterPrefabs[id],
+                  spawnPos,
+                  spawnPoint.rotation
+              );
+
+        CameraPlayer cam = Camera.main.GetComponent<CameraPlayer>();
+        if (cam != null)
+        {
+            cam.player = player;
+        }
     }
 
     // Update is called once per frame
