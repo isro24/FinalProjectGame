@@ -4,7 +4,7 @@ public class CameraPlayer : MonoBehaviour
 {
     public GameObject player;
 
-    private Vector3 offset = new Vector3(0.14f, 3.09f, -6.22f);
+    private Vector3 offset = new Vector3(0.30f, 1.55f, -5.5f);
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

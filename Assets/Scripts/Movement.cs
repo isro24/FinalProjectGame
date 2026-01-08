@@ -38,28 +38,29 @@ public class Movement : MonoBehaviour
     }
 
     // Update is called once per frame
+    void FixedUpdate()
+    {
+        Vector3 input = move.ReadValue<Vector3>();
+
+        Vector3 moveDir = new Vector3(input.x, 0f, input.y);
+        Vector3 targetPos = playerRB.position + moveDir * speed * Time.fixedDeltaTime;
+
+        playerRB.MovePosition(targetPos);
+    }
+
     void Update()
     {
-        moveVector = move.ReadValue<Vector3>();
-
-        transform.Translate(Vector3.forward * moveVector.z * Time.deltaTime * speed);
-
-        transform.Translate(Vector3.right * moveVector.x * Time.deltaTime * speed);
-
         if (jump.WasPressedThisFrame() && isGrounded)
         {
             playerRB.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false;
         }
-
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
-        {
             isGrounded = true;
-        }
     }
 
 }

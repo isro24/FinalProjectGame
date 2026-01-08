@@ -2,20 +2,20 @@ using System;
 using System.IO;
 using UnityEngine;
 
-public class Gamemanager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public static Gamemanager instance;
+    public static GameManager instance;
 
     string playerName;
-    int selectedCharacterId;
-    int selectedLevelId;
+    int selectedCharacterId = -1;
+    int unlockedLevel;
 
     [Serializable]
     public class JsonData
     {
         public string playerName;
         public int selectedCharacterId;
-        public int selectedLevelId;
+        public int unlockedLevel;
     }
 
     private void Awake()
@@ -31,14 +31,33 @@ public class Gamemanager : MonoBehaviour
         LoadData();
     }
 
-    public void SetPlayerName(string name) => playerName = name;
-    public void SetCharacter(int id) => selectedCharacterId = id;
-    public void SetLevel(int id) => selectedLevelId = id;
+    // Setter
+    public void SetPlayerName(string name)
+    {
+        if (playerName == name)return;
+        playerName = name;
+        SaveData();
+    }
+    public void SetCharacter(int id)
+    {
+        if(selectedCharacterId == id)return;
+        selectedCharacterId = id;
+        SaveData();
+    }
+    public void SetUnlockedLevel(int level)
+    {
+        if(level <= unlockedLevel) return;
+        unlockedLevel = level;
+        SaveData();
+    }
 
+    // Getter
     public string GetPlayerName() => playerName;
     public int GetCharacter() => selectedCharacterId;
-    public int GetLevel() => selectedLevelId;
-
+    public int GetUnlockedLevel()
+    {
+        return unlockedLevel;
+    }
 
     public void SaveData()
     {
@@ -46,30 +65,30 @@ public class Gamemanager : MonoBehaviour
 
         data.playerName = playerName;
         data.selectedCharacterId = selectedCharacterId;
-        data.selectedLevelId = selectedLevelId;
+        data.unlockedLevel = unlockedLevel;
 
         string json = JsonUtility.ToJson(data);
-        string path = Application.persistentDataPath + "/save.json";
+        string path = Application.dataPath + "/saveData.json";
         File.WriteAllText(path, json);
     }
 
     public void LoadData()
     {
-        string path = Application.persistentDataPath + "/save.json";
+        string path = Application.dataPath + "/saveData.json";
 
-        if (File.Exists(path))
+        if (!File.Exists(path))
         {
-            string json = File.ReadAllText(path);
-            JsonData data = JsonUtility.FromJson<JsonData>(json);
-
-            playerName = data.playerName;
-            selectedCharacterId = data.selectedCharacterId;
-            selectedLevelId = data.selectedLevelId;
+            unlockedLevel = 1;
+            selectedCharacterId = 0;
+            playerName = "";
+            return;
         }
-    }
 
-    private void OnApplicationQuit()
-    {
-        SaveData();
+        string json = File.ReadAllText(path);
+        JsonData data = JsonUtility.FromJson<JsonData>(json);
+
+        playerName = data.playerName;
+        selectedCharacterId = data.selectedCharacterId;
+        unlockedLevel = Mathf.Max(1, data.unlockedLevel);
     }
 }

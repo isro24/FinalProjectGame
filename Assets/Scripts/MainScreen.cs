@@ -17,7 +17,20 @@ public class MainScreen : MonoBehaviour
 
     public void PlayScene()
     {
-        SceneManager.LoadScene("ChooseLevel");
+        if (!string.IsNullOrEmpty(GameManager.instance.GetPlayerName()) &&
+                GameManager.instance.GetCharacter() >= 0)
+        {
+            SceneManager.LoadScene("LevelSelection");
+        }
+        else
+        {
+            SceneManager.LoadScene("CharacterSelection");
+        }
+    }
+
+    public void CharacterScene()
+    {
+        SceneManager.LoadScene("CharacterSelection");
     }
 
     public void QuitGame()
