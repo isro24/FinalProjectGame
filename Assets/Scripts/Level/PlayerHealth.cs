@@ -5,6 +5,8 @@ public class PlayerHealth : MonoBehaviour
     public int maxHP = 100;
     int currentHP;
 
+    public int CurrentHP => currentHP;
+
     void Start()
     {
         currentHP = maxHP;
@@ -13,12 +15,6 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHP -= damage;
-        Debug.Log("Player HP: " + currentHP);
-
-        if (currentHP <= 0)
-        {
-            Debug.Log("PLAYER DEAD");
-            // nanti bisa load game over
-        }
+        currentHP = Mathf.Max(0, currentHP);
     }
 }
