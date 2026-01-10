@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,11 +10,18 @@ public class CharacterSelection : MonoBehaviour
 
     [SerializeField] private Button prevButton;
     [SerializeField] private Button nextButton;
+    [SerializeField] private TMP_Text startButtonText;
+
     private int currentCharacter;
+    private bool hasData;
 
     private void Start()
     {
         string savedName = GameManager.instance.GetPlayerName();
+        int saveCharacter = GameManager.instance.GetCharacter();
+
+        hasData = !string.IsNullOrEmpty(savedName) || saveCharacter >=0 ;
+
         if (!string.IsNullOrEmpty(savedName))
             inputName.text = savedName;
 
@@ -22,6 +30,8 @@ public class CharacterSelection : MonoBehaviour
             currentCharacter = savedCharacter;
         else
             currentCharacter = 0;
+
+        startButtonText.text = hasData ? "Save " : "Start";
 
         SelectCharacter(currentCharacter);
     }
@@ -46,7 +56,9 @@ public class CharacterSelection : MonoBehaviour
     {
         GameManager.instance.SetPlayerName(inputName.text);
         GameManager.instance.SetCharacter(currentCharacter);
-        SceneManager.LoadScene("LevelSelection");
+
+        if (!hasData)
+            SceneManager.LoadScene("LevelSelection");
     }
 
 

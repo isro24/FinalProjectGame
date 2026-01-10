@@ -1105,6 +1105,7 @@ MonoBehaviour:
   inputName: {fileID: 929223889}
   prevButton: {fileID: 1828118939}
   nextButton: {fileID: 1479965975}
+  startButtonText: {fileID: 1873349176}
 --- !u!4 &1309948165
 Transform:
   m_ObjectHideFlags: 0
