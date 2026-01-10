@@ -30,9 +30,10 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
-        if (enemyAttack != null && EnemyAttackManager.instance != null)
-            EnemyAttackManager.instance.FinishAttack(enemyAttack);
+        if (EnemyManager.instance != null)
+            EnemyManager.instance.UnregisterEnemy();
 
         Destroy(gameObject);
     }
+
 }

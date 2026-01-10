@@ -14,14 +14,24 @@ public class MoveToNextLevel : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            int current = SceneManager.GetActiveScene().buildIndex;
-            int next = current + 1;
+            int currentLevel = GameManager.instance.GetCurrentLevel();
+            int next = currentLevel + 1;
+
+            GameManager.instance.SetCurrentLevel(next);
+
+            GameManager.instance.SetUnlockedLevel(next);
+
             int total = SceneManager.sceneCountInBuildSettings;
 
-            if (next < total)
+            if (next <= 3 )
             {
                 GameManager.instance.SetUnlockedLevel(next);
-                SceneManager.LoadScene(next);
+                SceneManager.LoadScene("Gameplay");
+            }
+            else if (next == 4)
+            {
+                GameManager.instance.SetUnlockedLevel(next);
+                SceneManager.LoadScene("BossLevel");
             }
             else
             {

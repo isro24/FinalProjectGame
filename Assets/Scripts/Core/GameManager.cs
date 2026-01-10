@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     string playerName;
     int selectedCharacterId = -1;
     int unlockedLevel;
+    int currentLevel;
 
     [Serializable]
     public class JsonData
@@ -50,6 +51,10 @@ public class GameManager : MonoBehaviour
         unlockedLevel = level;
         SaveData();
     }
+    public void SetCurrentLevel(int level)
+    {
+        currentLevel = level;
+    }
 
     // Getter
     public string GetPlayerName() => playerName;
@@ -57,6 +62,11 @@ public class GameManager : MonoBehaviour
     public int GetUnlockedLevel()
     {
         return unlockedLevel;
+    }
+
+    public int GetCurrentLevel()
+    {
+        return currentLevel;
     }
 
     public void SaveData()

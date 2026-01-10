@@ -20,7 +20,7 @@ public class CharacterSelection : MonoBehaviour
         string savedName = GameManager.instance.GetPlayerName();
         int saveCharacter = GameManager.instance.GetCharacter();
 
-        hasData = !string.IsNullOrEmpty(savedName) || saveCharacter >=0 ;
+        hasData = !string.IsNullOrEmpty(savedName);
 
         if (!string.IsNullOrEmpty(savedName))
             inputName.text = savedName;

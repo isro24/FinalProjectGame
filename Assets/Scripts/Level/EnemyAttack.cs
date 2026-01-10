@@ -21,6 +21,9 @@ public class EnemyAttack : MonoBehaviour
 
     void Start()
     {
+        LevelData data = LevelConfig.instance.GetCurrentData();
+        damage = data.enemyDamage;
+
         player = FindFirstObjectByType<PlayerHealth>();
         manager = EnemyAttackManager.instance;
 

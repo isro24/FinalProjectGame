@@ -400,7 +400,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChooseLevel
   levelButtons: []
-  levelScenes: []
 --- !u!114 &287804576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -701,11 +700,6 @@ MonoBehaviour:
   - {fileID: 4044046}
   - {fileID: 1673296755}
   - {fileID: 1883759847}
-  levelScenes:
-  - Level1
-  - Level2
-  - Level3
-  - Level4
 --- !u!4 &1100907903
 Transform:
   m_ObjectHideFlags: 0
@@ -1306,6 +1300,10 @@ PrefabInstance:
     - target: {fileID: 3117792049364215562, guid: 47163c3046a86584184b7c3a6d466cca, type: 3}
       propertyPath: m_Name
       value: Back
+      objectReference: {fileID: 0}
+    - target: {fileID: 5628799314938027765, guid: 47163c3046a86584184b7c3a6d466cca, type: 3}
+      propertyPath: m_text
+      value: BACK
       objectReference: {fileID: 0}
     - target: {fileID: 7158015655198240413, guid: 47163c3046a86584184b7c3a6d466cca, type: 3}
       propertyPath: m_Pivot.x

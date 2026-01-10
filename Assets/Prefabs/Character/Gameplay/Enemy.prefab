@@ -102,10 +102,11 @@ GameObject:
   - component: {fileID: 7329149787536540497}
   - component: {fileID: 6626687886015572212}
   - component: {fileID: -8349662454571704841}
-  - component: {fileID: -3232021559905929762}
   - component: {fileID: -5239488897728471497}
   - component: {fileID: 1709192740377708442}
   - component: {fileID: 3946535490341080515}
+  - component: {fileID: -1513945603956519511}
+  - component: {fileID: 7834248680759125054}
   m_Layer: 3
   m_Name: Enemy
   m_TagString: Enemy
@@ -224,25 +225,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHP: 50
---- !u!114 &-3232021559905929762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3747584991554270733}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bdfd84c975f76a4e9b35ae07e37cfca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyChase
-  moveSpeed: 2
-  stopDistance: 1.5
-  separationRadius: 1.2
-  separationStrength: 2.5
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!54 &-5239488897728471497
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -385,6 +367,48 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-1513945603956519511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3747584991554270733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 861dfa80eccce3d4d957a4ebf1160942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  moveSpeed: 2
+  stopDistance: 1.5
+  formationIndex: 0
+  formationTotal: 6
+  circleRadius: 2.5
+  lowHPPercent: 0.3
+  separationRadius: 1.2
+  separationStrength: 2.5
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &7834248680759125054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3747584991554270733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bdfd84c975f76a4e9b35ae07e37cfca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyChase
+  moveSpeed: 3
+  stopDistance: 1.5
+  separationRadius: 1.2
+  separationStrength: 2.5
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &5765114582538759776
 GameObject:
   m_ObjectHideFlags: 0

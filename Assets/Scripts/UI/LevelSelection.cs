@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class LevelSelection : MonoBehaviour
 {
     [SerializeField] Button[] levelButtons;
-    [SerializeField] string[] levelScenes;
+    // [SerializeField] string[] levelScenes;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,8 +21,14 @@ public class LevelSelection : MonoBehaviour
 
     void LoadLevel(int index)
     {
-        if (index < levelScenes.Length)
-            SceneManager.LoadScene(levelScenes[index]);
+        int level = index + 1;
+
+        GameManager.instance.SetCurrentLevel(level);
+
+        if (level == 4)
+            SceneManager.LoadScene("BossLevel");
+        else
+            SceneManager.LoadScene("Gameplay");
     }
 
     public void BackScene()

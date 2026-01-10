@@ -16,6 +16,7 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         currentWaveAmount = startAmount;
+        EnemyManager.instance.Init(maxEnemy);
         StartCoroutine(SpawnWave());
     }
 
@@ -27,29 +28,34 @@ public class EnemySpawner : MonoBehaviour
 
             for (int i = 0; i < spawnThisWave; i++)
             {
-                Vector3 pos = transform.position +
-                    new Vector3(
-                        Random.Range(-spawnRadius, spawnRadius),
-                        0,
-                        Random.Range(-spawnRadius, spawnRadius)
-                    );
+                Vector3 randomXZ = transform.position + new Vector3(
+                    Random.Range(-spawnRadius, spawnRadius),
+                    10f,
+                    Random.Range(-spawnRadius, spawnRadius)
+                );
 
-                GameObject enemy = Instantiate(enemyPrefab, pos, Quaternion.identity);
-
-                // ===============================
-                // 🔴 TAMBAHAN PENTING (ANTI NUMPuk)
-                // ===============================
-                EnemyAI ai = enemy.GetComponent<EnemyAI>();
-                if (ai != null)
+                if (Physics.Raycast(randomXZ, Vector3.down, out RaycastHit hit, 50f))
                 {
-                    ai.formationIndex = spawnedCount % ai.formationTotal;
-                }
+                    Vector3 spawnPos = hit.point;
+                    spawnPos.y += 1f; 
 
-                spawnedCount++;
+                    GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+
+                    EnemyManager.instance.RegisterEnemy();
+
+                    EnemyAI ai = enemy.GetComponent<EnemyAI>();
+                    if (ai != null)
+                    {
+                        ai.formationIndex = spawnedCount % ai.formationTotal;
+                    }
+
+                    spawnedCount++;
+                }
             }
 
-            currentWaveAmount *= 2;   // wave berlipat dua
+            currentWaveAmount *= 2;
             yield return new WaitForSeconds(spawnInterval);
         }
     }
+
 }
