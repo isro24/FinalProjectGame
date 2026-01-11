@@ -9,33 +9,64 @@ public class Weapon : MonoBehaviour
     void Awake()
     {
         col = GetComponent<Collider>();
-        col.enabled = false;
+
+        if (col == null)
+        {
+            Debug.LogError("[Weapon] ❌ Collider TIDAK DITEMUKAN di Sword");
+        }
+        else
+        {
+            col.enabled = false;
+            Debug.Log("[Weapon] ✅ Collider ditemukan & DISABLE saat start");
+        }
     }
 
     public void EnableHit()
     {
+        if (col == null) return;
+
         col.enabled = true;
-        Debug.Log("[Weapon] HIT ENABLED");
+        Debug.Log("[Weapon] 🟢 HIT ENABLED");
     }
 
     public void DisableHit()
     {
+        if (col == null) return;
+
         col.enabled = false;
-        Debug.Log("[Weapon] HIT DISABLED");
+        Debug.Log("[Weapon] 🔴 HIT DISABLED");
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (!col.enabled) return;
+        Debug.Log("[Weapon] ⚠️ Trigger ENTER dengan: " + other.name +
+                  " | TAG = " + other.tag);
 
-        if (other.CompareTag("Enemy"))
+        if (!col.enabled)
         {
-            EnemyHealth enemy = other.GetComponent<EnemyHealth>();
-            if (enemy != null)
-            {
-                enemy.TakeDamage(damage);
-                Debug.Log("SWORD HIT ENEMY");
-            }
+            Debug.Log("[Weapon] ⛔ Collider DISABLE, abaikan hit");
+            return;
         }
+
+        // ================= ENEMY =================
+        EnemyHealth enemy = other.GetComponentInParent<EnemyHealth>();
+        if (enemy != null)
+        {
+            Debug.Log("[Weapon] 🎯 KENA ENEMY");
+            enemy.TakeDamage(damage);
+            return;
+        }
+
+        // ================= BOSS =================
+        BossHealth boss = other.GetComponentInParent<BossHealth>();
+        if (boss != null)
+        {
+            Debug.Log("[Weapon] 🟥 KENA BOSS");
+            boss.TakeDamage(damage);
+            Debug.Log("[Weapon] 💥 DAMAGE ke BOSS = " + damage);
+            return;
+        }
+
+        Debug.Log("[Weapon] ℹ️ Collider bukan Enemy / Boss");
     }
 }

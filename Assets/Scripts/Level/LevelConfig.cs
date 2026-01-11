@@ -29,7 +29,7 @@ public class LevelConfig : MonoBehaviour
     public LevelData GetCurrentData()
     {
         int level = GameManager.instance.GetCurrentLevel();
-        int index = Mathf.Clamp(level -1, 0, levels.Length - 1);
+        int index = Mathf.Clamp(level - 1, 0, levels.Length - 1);
         return levels[index];
     }
 }

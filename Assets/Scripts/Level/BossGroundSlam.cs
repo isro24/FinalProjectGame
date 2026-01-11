@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class BossGroundSlam : MonoBehaviour
@@ -6,87 +6,90 @@ public class BossGroundSlam : MonoBehaviour
     [Header("AOE Settings")]
     public float slamRadius = 3f;
     public int slamDamage = 30;
-    public float slamCooldown = 4f;
+    public float slamCooldown = 10f;
 
     [Header("Indicator")]
     public GameObject slamIndicator;
-    public float warnDuration = 1.5f;
-    public float blinkSpeed = 0.2f;
+    public float warningDuration = 2f;
+    public float blinkSpeed = 0.25f;
 
     [Header("Audio")]
     public AudioSource slamAudio;
 
-    bool canSlam = true;
-    Transform player;
+    PlayerHealth player;
+    bool isSlamming;
 
     void Start()
     {
-        player = FindFirstObjectByType<PlayerHealth>()?.transform;
+        player = FindFirstObjectByType<PlayerHealth>();
 
-        if (slamIndicator != null)
-            slamIndicator.SetActive(false);
+        if (player == null)
+            Debug.LogError("PLAYER TIDAK DITEMUKAN");
+
+        slamIndicator.SetActive(false);
+        StartCoroutine(SlamLoop());
     }
 
-    void Update()
-    {
-        if (!canSlam || player == null) return;
 
-        float dist = Vector3.Distance(transform.position, player.position);
-        if (dist <= slamRadius + 1f)
+    IEnumerator SlamLoop()
+    {
+        while (true)
         {
-            StartCoroutine(SlamRoutine());
+            yield return new WaitForSeconds(slamCooldown);
+            yield return StartCoroutine(DoSlam());
         }
     }
 
-    IEnumerator SlamRoutine()
+    IEnumerator DoSlam()
     {
-        canSlam = false;
+        if (isSlamming || player == null) yield break;
+        isSlamming = true;
 
-        // POSISIKAN INDICATOR DI BAWAH PLAYER
-        slamIndicator.transform.position =
-            new Vector3(player.position.x, 0.01f, player.position.z);
+        // POSISI INDICATOR DI PLAYER
+        Vector3 slamPos = new Vector3(
+            player.transform.position.x,
+            0.01f,
+            player.transform.position.z
+        );
 
+        slamIndicator.transform.position = slamPos;
+        slamIndicator.transform.localScale = Vector3.one * slamRadius * 2f;
+
+        // === WARNING BLINK ===
+        float timer = 0f;
+        bool visible = true;
         slamIndicator.SetActive(true);
 
-        // BLINK WARNING
-        float t = 0f;
-        while (t < warnDuration)
+        while (timer < warningDuration)
         {
-            slamIndicator.SetActive(!slamIndicator.activeSelf);
+            visible = !visible;
+            slamIndicator.SetActive(visible);
             yield return new WaitForSeconds(blinkSpeed);
-            t += blinkSpeed;
+            timer += blinkSpeed;
         }
 
         slamIndicator.SetActive(true);
 
-        // SLAM!
+        // === SLAM ===
         if (slamAudio != null)
             slamAudio.Play();
 
-        DealDamage();
-
-        yield return new WaitForSeconds(0.3f);
-        slamIndicator.SetActive(false);
-
-        yield return new WaitForSeconds(slamCooldown);
-        canSlam = true;
-    }
-
-    void DealDamage()
-    {
-        Collider[] hits = Physics.OverlapSphere(
-            slamIndicator.transform.position,
-            slamRadius
-        );
-
+        Collider[] hits = Physics.OverlapSphere(slamPos, slamRadius);
         foreach (Collider hit in hits)
         {
-            PlayerHealth player = hit.GetComponent<PlayerHealth>();
-            if (player != null)
+            if (hit.CompareTag("Player"))
             {
-                player.TakeDamage(slamDamage);
+                PlayerHealth ph = hit.GetComponent<PlayerHealth>();
+                if (ph != null)
+                {
+                    ph.TakeDamage(slamDamage);
+                    Debug.Log("💥 PLAYER KENA GROUND SLAM");
+                }
             }
         }
+
+        slamIndicator.SetActive(false);
+        isSlamming = false;
     }
 
     void OnDrawGizmosSelected()
